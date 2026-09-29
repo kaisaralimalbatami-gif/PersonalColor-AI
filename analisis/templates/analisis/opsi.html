@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Temukan Persona Anda | Personal Color AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'analisis/css/opsi.css' %}">
+</head>
+<body>
+  <main class="opsi">
+
+    <section class="opsi__visual" aria-hidden="true">
+      <div class="opsi__frame">
+        <img src="{% static 'analisis/img/hero.jpg' %}" alt="">
+      </div>
+    </section>
+
+    <section class="opsi__content">
+      <h1 class="opsi__title">Temukan Persona Anda.</h1>
+
+      <ul class="opsi__swatches" aria-label="Contoh palet warna kulit">
+        <li style="--c:#d4956a"></li>
+        <li style="--c:#c98d72"></li>
+        <li style="--c:#e5b59a"></li>
+        <li style="--c:#a67c5b"></li>
+        <li style="--c:#efc3a0"></li>
+        <li style="--c:#b8860b"></li>
+        <li style="--c:#c48a62"></li>
+        <li style="--c:#deb887"></li>
+      </ul>
+
+      <p class="opsi__desc">
+        Analisis warna kulit dan temukan palet warna personal
+        yang paling cocok untuk Anda.
+      </p>
+
+      {# Nanti ganti href ini dengan {% url 'analisis:kamera' %} #}
+      <a class="opsi__cta" href="#">Mulai analisis</a>
+    </section>
+
+  </main>
+
+  <script src="{% static 'analisis/js/opsi.js' %}"></script>
+</body>
+</html>
