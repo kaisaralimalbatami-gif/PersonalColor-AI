@@ -30,15 +30,17 @@ body {
   place-items: center;
   padding: 24px;
   background-color: var(--bg-visual);
-  background-image: repeating-linear-gradient(
-    45deg,
-    transparent 0 22px,
-    var(--stripe) 22px 23px
-  );
+  background-image:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.28), transparent 45%),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0 22px,
+      var(--stripe) 22px 23px
+    );
 }
 
 .opsi__frame {
-  height: min(70vh, 560px);
+  height: min(78vh, 640px);
   aspect-ratio: 450 / 585;
   max-width: 100%;
   border-radius: 50%;
