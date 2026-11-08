@@ -4,47 +4,217 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Temukan Persona Anda | Personal Color AI</title>
+  <meta name="theme-color" content="#faf7f5">
+  <title>AuraVibe — Temukan warna terbaik Anda</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'analisis/css/opsi.css' %}">
 </head>
 <body>
-  <main class="opsi">
+  <header class="site-header">
+    <div class="container header-content">
+      <a class="brand" href="#" aria-label="AuraVibe, halaman utama">
+        <span class="brand__mark" aria-hidden="true">✦</span>
+        <span>Aura<span class="brand__accent">Vibe</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Navigasi utama">
+        <a href="#langkah">Cara kerja</a>
+        <a href="#palet">Palet warna</a>
+        <a href="#privasi">Privasi</a>
+        <a class="main-nav__admin" href="/admin/"><span aria-hidden="true">♙</span> Masuk Admin</a>
+      </nav>
+    </div>
+  </header>
 
-    <section class="opsi__visual" aria-hidden="true">
-      <div class="opsi__frame">
-        <img src="{% static 'analisis/img/hero.jpg' %}" alt="">
+  <main>
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <p class="eyebrow"><span aria-hidden="true">✧</span> Analisis personal color berbasis wajah</p>
+          <h1>Temukan warna<br class="desktop-break"> yang membuat<br class="desktop-break"> <em>rona alami</em> Anda<br class="desktop-break"> bersinar.</h1>
+          <p class="hero__description">
+            Analisis undertone dan karakter warna wajah dalam hitungan detik,
+            lalu dapatkan palet serta rekomendasi fashion yang terasa personal.
+          </p>
+          <div class="hero__actions">
+            <label class="button button--primary" for="photo-input">
+              <span aria-hidden="true">↥</span> Unggah foto
+            </label>
+            <label class="button button--secondary" for="camera-input">
+              <span aria-hidden="true">◎</span> Gunakan kamera
+            </label>
+            <input class="visually-hidden" id="photo-input" type="file" accept="image/*">
+            <input class="visually-hidden" id="camera-input" type="file" accept="image/*" capture="user">
+          </div>
+          <p class="hero__privacy" id="upload-status" aria-live="polite">
+            <span aria-hidden="true">♧</span> Foto hanya diproses sementara dan tidak disimpan.
+          </p>
+        </div>
+
+        <div class="hero-art" role="img" aria-label="Ilustrasi wajah dengan palet warna Warm Autumn">
+          <svg class="portrait" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="portrait-bg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#eac4b7"/>
+                <stop offset="1" stop-color="#b77e77"/>
+              </linearGradient>
+              <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#e9bda4"/>
+                <stop offset="1" stop-color="#d89f87"/>
+              </linearGradient>
+            </defs>
+            <path d="M210 16C120 16 34 71 34 172v194c0 12 10 22 22 22h308c12 0 22-10 22-22V172C386 71 300 16 210 16Z" fill="url(#portrait-bg)"/>
+            <path d="M100 385c9-76 57-117 110-117s101 41 110 117H100Z" fill="#57364b"/>
+            <path d="M119 190c0-72 38-113 91-113s91 41 91 113v38c0 67-41 115-91 115s-91-48-91-115v-38Z" fill="url(#skin)"/>
+            <path d="M112 123c0-31 38-49 98-49s98 18 98 49v30c0 11-11 20-25 20H137c-14 0-25-9-25-20v-30Z" fill="#49323b"/>
+            <path d="M158 207c8 5 18 5 26 0M246 207c8 5 18 5 26 0" fill="none" stroke="#67464a" stroke-linecap="round" stroke-width="2"/>
+            <path d="M201 277c4 3 8 3 12 0" fill="none" stroke="#9e615f" stroke-linecap="round" stroke-width="2"/>
+            <path d="M66 238h288" fill="none" stroke="#f4ded1" stroke-opacity=".25" stroke-width="3"/>
+            <rect x="49" y="350" width="126" height="31" rx="8" fill="#553b3b" fill-opacity=".72"/>
+            <text x="61" y="370" fill="#fff" font-family="Arial, sans-serif" font-size="10">Menetapkan rona wajah</text>
+          </svg>
+          <div class="palette-float">
+            <span>Warm Autumn</span>
+            <div class="palette-float__swatches" aria-label="Palet warna Warm Autumn">
+              <i style="--swatch:#b75f43"></i><i style="--swatch:#d39c3b"></i>
+              <i style="--swatch:#7b8050"></i><i style="--swatch:#3f7770"></i>
+              <i style="--swatch:#49322d"></i>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="opsi__content">
-      <h1 class="opsi__title">Temukan Persona Anda.</h1>
-
-      <ul class="opsi__swatches" aria-label="Contoh palet warna kulit">
-        <li style="--c:#d4956a"></li>
-        <li style="--c:#c98d72"></li>
-        <li style="--c:#e5b59a"></li>
-        <li style="--c:#a67c5b"></li>
-        <li style="--c:#efc3a0"></li>
-        <li style="--c:#b8860b"></li>
-        <li style="--c:#c48a62"></li>
-        <li style="--c:#deb887"></li>
-      </ul>
-
-      <p class="opsi__desc">
-        Analisis warna kulit dan temukan palet warna personal
-        yang paling cocok untuk Anda.
-      </p>
-
-      {# Nanti ganti href ini dengan {% url 'analisis:kamera' %} #}
-      <a class="opsi__cta" href="#">Mulai analisis</a>
+    <section class="steps section" id="langkah">
+      <div class="container">
+        <div class="section-heading section-heading--center">
+          <p class="eyebrow">Mudah dan cepat</p>
+          <h2>Tiga langkah menuju warna<br class="desktop-break"> terbaik Anda</h2>
+        </div>
+        <div class="steps__grid">
+          <article class="step-card">
+            <span class="step-card__icon" aria-hidden="true">◎</span>
+            <span class="step-card__number">01</span>
+            <h3>Ambil foto</h3>
+            <p>Gunakan foto wajah dengan cahaya alami dan tanpa filter.</p>
+          </article>
+          <article class="step-card">
+            <span class="step-card__icon" aria-hidden="true">✣</span>
+            <span class="step-card__number">02</span>
+            <h3>Analisis otomatis</h3>
+            <p>Sistem membaca area wajah, undertone, dan tingkat kontras.</p>
+          </article>
+          <article class="step-card">
+            <span class="step-card__icon" aria-hidden="true">◉</span>
+            <span class="step-card__number">03</span>
+            <h3>Lihat rekomendasi</h3>
+            <p>Dapatkan palet warna dan panduan fashion yang sesuai.</p>
+          </article>
+        </div>
+      </div>
     </section>
 
+    <section class="palettes section" id="palet">
+      <div class="container">
+        <div class="palettes__heading">
+          <div class="section-heading">
+            <p class="eyebrow">Kenali personal color</p>
+            <h2>Empat keluarga palet, satu yang<br class="desktop-break"> paling selaras dengan Anda.</h2>
+          </div>
+          <p class="palettes__intro">
+            Personal color dikelompokkan berdasarkan undertone, tingkat terang-gelap,
+            dan kontras alami wajah. Kenali karakter setiap palet sebelum menemukan hasil Anda.
+          </p>
+        </div>
+
+        <div class="palette-grid">
+          <article class="palette-card palette-card--spring">
+            <div class="palette-card__top">
+              <span class="palette-card__number">01</span>
+              <div class="color-dots" aria-label="Warna palet Spring">
+                <i style="--dot:#f2a492"></i><i style="--dot:#ef7568"></i><i style="--dot:#f5d477"></i><i style="--dot:#8ca76c"></i><i style="--dot:#6bb7b2"></i>
+              </div>
+            </div>
+            <p class="palette-card__eyebrow">Spring palette</p>
+            <h3>Warm Spring</h3>
+            <p class="palette-card__description">Warna hangat, ringan, dan jernih untuk kesan segar.</p>
+            <div class="tags"><span>Hangat</span><span>Cerah</span><span>Ringan</span></div>
+            <div class="palette-card__colors"><span>Warna andalan</span><strong>Peach Bloom · Warm Coral · Butter Cream</strong></div>
+          </article>
+
+          <article class="palette-card palette-card--summer">
+            <div class="palette-card__top">
+              <span class="palette-card__number">02</span>
+              <div class="color-dots" aria-label="Warna palet Summer">
+                <i style="--dot:#c98c9d"></i><i style="--dot:#8fb4c5"></i><i style="--dot:#536d84"></i><i style="--dot:#aaa0bd"></i><i style="--dot:#a99d95"></i>
+              </div>
+            </div>
+            <p class="palette-card__eyebrow">Summer palette</p>
+            <h3>Cool Summer</h3>
+            <p class="palette-card__description">Warna sejuk, lembut, dan sedikit muted untuk harmoni.</p>
+            <div class="tags"><span>Sejuk</span><span>Lembut</span><span>Muted</span></div>
+            <div class="palette-card__colors"><span>Warna andalan</span><strong>Dusty Rose · Powder Blue · Soft Navy</strong></div>
+          </article>
+
+          <article class="palette-card palette-card--autumn">
+            <div class="palette-card__top">
+              <span class="palette-card__number">03</span>
+              <div class="color-dots" aria-label="Warna palet Autumn">
+                <i style="--dot:#b95c42"></i><i style="--dot:#d08435"></i><i style="--dot:#d1a936"></i><i style="--dot:#747b48"></i><i style="--dot:#49332e"></i>
+              </div>
+            </div>
+            <p class="palette-card__eyebrow">Autumn palette</p>
+            <h3>Warm Autumn</h3>
+            <p class="palette-card__description">Warna hangat, kaya, dan earthy dengan kesan alami.</p>
+            <div class="tags"><span>Hangat</span><span>Kaya</span><span>Earthy</span></div>
+            <div class="palette-card__colors"><span>Warna andalan</span><strong>Terracotta · Rust · Mustard</strong></div>
+          </article>
+
+          <article class="palette-card palette-card--winter">
+            <div class="palette-card__top">
+              <span class="palette-card__number">04</span>
+              <div class="color-dots" aria-label="Warna palet Winter">
+                <i style="--dot:#c31f43"></i><i style="--dot:#202b4a"></i><i style="--dot:#f4f0e9"></i><i style="--dot:#543354"></i><i style="--dot:#333538"></i>
+              </div>
+            </div>
+            <p class="palette-card__eyebrow">Winter palette</p>
+            <h3>Cool Winter</h3>
+            <p class="palette-card__description">Warna sejuk, tegas, dan kontras tinggi untuk kesan kuat.</p>
+            <div class="tags"><span>Sejuk</span><span>Kontras</span><span>Tegas</span></div>
+            <div class="palette-card__colors"><span>Warna andalan</span><strong>True Red · Deep Navy · Pure White</strong></div>
+          </article>
+        </div>
+
+        <div class="palette-cta">
+          <span class="palette-cta__sparkle" aria-hidden="true">✣</span>
+          <div>
+            <strong>Belum tahu palet Anda?</strong>
+            <p>Biarkan AuraVibe membaca karakter warna wajah Anda.</p>
+          </div>
+          <label class="button button--primary palette-cta__button" for="photo-input">Temukan palet saya <span aria-hidden="true">→</span></label>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer" id="privasi">
+    <div class="container footer-grid">
+      <div class="footer-item">
+        <span class="footer-item__icon" aria-hidden="true">♧</span>
+        <div><strong>Privasi utama</strong><p>Foto diproses sementara.</p></div>
+      </div>
+      <div class="footer-item">
+        <span class="footer-item__icon" aria-hidden="true">♙</span>
+        <div><strong>Koneksi aman</strong><p>Siap untuk HTTPS/TLS.</p></div>
+      </div>
+      <div class="footer-item">
+        <span class="footer-item__icon" aria-hidden="true">✣</span>
+        <div><strong>Analisis adaptif</strong><p>Hasil mengikuti karakter foto.</p></div>
+      </div>
+    </div>
+  </footer>
 
   <script src="{% static 'analisis/js/opsi.js' %}"></script>
 </body>
