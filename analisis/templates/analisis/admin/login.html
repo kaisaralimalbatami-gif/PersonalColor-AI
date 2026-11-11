@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf7f5">
+  <title>Masuk Admin — AuraVibe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'analisis/css/admin.css' %}">
+</head>
+<body class="login-page">
+  <a class="login-back" href="{% url 'analisis:beranda' %}"><span aria-hidden="true">←</span> Kembali ke analisis</a>
+  <main class="login-main">
+    <section class="login-card" aria-labelledby="login-title">
+      <a class="admin-brand" href="{% url 'analisis:beranda' %}" aria-label="AuraVibe">
+        <span class="admin-brand__mark" aria-hidden="true">✦</span>
+        <span>Aura<span>Vibe</span></span>
+      </a>
+      <p class="login-eyebrow">Portal administrator</p>
+      <h1 id="login-title">Selamat datang kembali</h1>
+      <p class="login-description">Masuk untuk mengelola sistem analisis personal color.</p>
+
+      <form class="login-form" method="post">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+          <div class="login-error" role="alert">{{ form.non_field_errors }}</div>
+        {% endif %}
+        <div class="login-field">
+          <label for="{{ form.username.id_for_label }}">Username</label>
+          {{ form.username }}
+          {% for error in form.username.errors %}<p class="field-error" role="alert">{{ error }}</p>{% endfor %}
+        </div>
+        <div class="login-field">
+          <label for="{{ form.password.id_for_label }}">Kata sandi</label>
+          {{ form.password }}
+          {% for error in form.password.errors %}<p class="field-error" role="alert">{{ error }}</p>{% endfor %}
+        </div>
+        <button class="login-submit" type="submit">Masuk ke dashboard <span aria-hidden="true">→</span></button>
+      </form>
+
+      <p class="login-hint">Gunakan akun administrator yang dibuat di Django.</p>
+    </section>
+  </main>
+</body>
+</html>

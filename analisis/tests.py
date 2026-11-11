@@ -5,6 +5,7 @@ Kelas AnalisisServiceTests memakai detektor palsu sehingga tidak membutuhkan mod
 """
 import cv2
 import numpy as np
+from django.contrib.auth import get_user_model
 from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
 
@@ -97,3 +98,49 @@ class HalamanTests(TestCase):
         url = reverse("analisis:kirim_email")
         self.assertEqual(self.client.post(url, {"nama": "", "email": "salah"}).status_code, 400)
         self.assertEqual(self.client.post(url, {"nama": "Divani", "email": "d@example.com"}).status_code, 200)
+
+
+class DashboardAdminTests(TestCase):
+    def setUp(self):
+        self.admin = get_user_model().objects.create_user(
+            username="admin-ui",
+            password="Secure-test-pass-123",
+            is_staff=True,
+        )
+
+    def test_dashboard_memerlukan_login(self):
+        response = self.client.get(reverse("analisis:dashboard"))
+        self.assertRedirects(
+            response,
+            f"{reverse('analisis:admin_login')}?next={reverse('analisis:dashboard')}",
+        )
+
+    def test_admin_dapat_login_dan_membuka_dashboard(self):
+        login_response = self.client.post(reverse("analisis:admin_login"), {
+            "username": "admin-ui",
+            "password": "Secure-test-pass-123",
+        })
+        self.assertRedirects(login_response, reverse("analisis:dashboard"))
+        dashboard_response = self.client.get(reverse("analisis:dashboard"))
+        self.assertContains(dashboard_response, "Dashboard")
+        self.assertContains(dashboard_response, "Data contoh")
+        self.assertContains(dashboard_response, "Admin-Ui")
+
+    def test_pengguna_non_staff_tidak_dapat_login_admin(self):
+        pengguna = get_user_model().objects.create_user(username="pengguna", password="User-pass-123")
+        response = self.client.post(reverse("analisis:admin_login"), {
+            "username": "pengguna",
+            "password": "User-pass-123",
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "tidak memiliki akses administrator")
+        self.assertFalse(response.wsgi_request.user.is_authenticated)
+        self.client.force_login(pengguna)
+        self.assertEqual(self.client.get(reverse("analisis:dashboard")).status_code, 403)
+
+    def test_logout_memerlukan_post_dan_mengakhiri_sesi_admin(self):
+        self.client.force_login(self.admin)
+        logout_response = self.client.post(reverse("analisis:admin_logout"))
+        self.assertRedirects(logout_response, reverse("analisis:admin_login"))
+        dashboard_response = self.client.get(reverse("analisis:dashboard"))
+        self.assertEqual(dashboard_response.status_code, 302)

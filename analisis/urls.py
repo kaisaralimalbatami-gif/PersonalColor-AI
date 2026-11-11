@@ -5,6 +5,9 @@ app_name = "analisis"
 
 urlpatterns = [
     path("", views.beranda, name="beranda"),
+    path("dashboard/login/", views.admin_login, name="admin_login"),
+    path("dashboard/", views.dashboard, name="dashboard"),
+    path("dashboard/logout/", views.admin_logout, name="admin_logout"),
     path("kamera/", views.kamera, name="kamera"),
     path("proses/", views.proses, name="proses"),
     path("api/analisis/", views.api_analisis, name="api_analisis"),

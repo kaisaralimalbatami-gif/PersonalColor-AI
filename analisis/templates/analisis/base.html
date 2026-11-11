@@ -25,7 +25,7 @@
         <a href="{% url 'analisis:beranda' %}#langkah">Cara kerja</a>
         <a href="{% url 'analisis:beranda' %}#palet">Palet warna</a>
         <a href="{% url 'analisis:beranda' %}#privasi">Privasi</a>
-        <a class="main-nav__admin" href="/admin/"><span aria-hidden="true">♙</span> Masuk Admin</a>
+        <a class="main-nav__admin" href="{% url 'analisis:admin_login' %}"><span aria-hidden="true">♙</span> Masuk Admin</a>
       </nav>
     </div>
   </header>

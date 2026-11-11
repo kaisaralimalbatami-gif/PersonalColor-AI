@@ -1,9 +1,14 @@
 from django.conf import settings
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.utils import timezone
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.http import require_GET, require_POST
+from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
 from . import data, services
 from .forms import KirimHasilForm
@@ -14,6 +19,54 @@ SESSION_KEY = "hasil_analisis"
 def beranda(request):
     """Halaman utama: tombol "Unggah foto" dan "Gunakan kamera"."""
     return render(request, "analisis/beranda.html")
+
+
+@require_http_methods(["GET", "POST"])
+def admin_login(request):
+    """Masuk ke dashboard menggunakan akun staff Django."""
+    if request.user.is_authenticated and request.user.is_staff:
+        return redirect("analisis:dashboard")
+
+    form = AuthenticationForm(request, data=request.POST or None)
+    form.fields["username"].widget.attrs.pop("autofocus", None)
+    form.fields["username"].widget.attrs.update({
+        "placeholder": "Masukkan username",
+        "autocomplete": "username",
+    })
+    form.fields["password"].widget.attrs.update({
+        "placeholder": "Masukkan kata sandi",
+        "autocomplete": "current-password",
+    })
+
+    if request.method == "POST" and form.is_valid():
+        user = form.get_user()
+        if not user.is_staff:
+            form.add_error(None, "Akun ini tidak memiliki akses administrator.")
+        else:
+            login(request, user)
+            return redirect("analisis:dashboard")
+
+    return render(request, "analisis/admin/login.html", {"form": form})
+
+
+@login_required(login_url="analisis:admin_login")
+def dashboard(request):
+    """Ringkasan admin; statistik pada tampilan saat ini adalah data pratinjau."""
+    if not request.user.is_staff:
+        raise PermissionDenied
+    return render(request, "analisis/admin/dashboard.html", {
+        "admin_name": request.user.get_full_name() or request.user.get_username(),
+        "tanggal_hari_ini": timezone.localdate(),
+    })
+
+
+@require_POST
+@login_required(login_url="analisis:admin_login")
+def admin_logout(request):
+    if not request.user.is_staff:
+        raise PermissionDenied
+    logout(request)
+    return redirect("analisis:admin_login")
 
 
 def kamera(request):
