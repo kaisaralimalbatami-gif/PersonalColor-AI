@@ -1,150 +1,89 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#faf7f5">
-  <title>Dashboard — AuraVibe</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'analisis/css/admin.css' %}">
-</head>
-<body class="dashboard-page">
-  <aside class="sidebar">
-    <a class="admin-brand sidebar__brand" href="{% url 'analisis:dashboard' %}" aria-label="AuraVibe Dashboard">
-      <span class="admin-brand__mark" aria-hidden="true">✦</span>
-      <span>AuraVibe</span>
-    </a>
+{% extends "analisis/admin/base.html" %}
 
-    <div class="sidebar__nav-wrap">
-      <p class="sidebar__label">Manajemen sistem</p>
-      <nav class="sidebar-nav" aria-label="Navigasi dashboard">
-        <a class="sidebar-nav__link is-active" href="#overview" aria-current="page"><span aria-hidden="true">▦</span> Ringkasan</a>
-        <a class="sidebar-nav__link" href="#activities"><span aria-hidden="true">♙</span> Data pengguna</a>
-        <a class="sidebar-nav__link" href="#references"><span aria-hidden="true">◉</span> Referensi warna</a>
-        <a class="sidebar-nav__link" href="#statistics"><span aria-hidden="true">▥</span> Statistik</a>
-      </nav>
+{% block content %}
+<div class="dashboard-heading">
+  <div>
+    <p class="dashboard-date">{{ tanggal_hari_ini|date:"l, j F Y" }}</p>
+    <h2>Selamat pagi, {{ admin_name|title }}</h2>
+    <p class="dashboard-subtitle">
+      Berikut ringkasan aktivitas analisis personal color hari ini.
+      <span class="sample-notice">· Data contoh untuk pratinjau desain</span>
+    </p>
+  </div>
+</div>
+
+<section class="metric-grid" aria-label="Ringkasan metrik">
+  <article class="metric-card">
+    <div class="metric-card__top"><span>Analisis hari ini</span><span class="metric-card__icon" aria-hidden="true">◎</span></div>
+    <strong class="metric-card__value">158</strong>
+    <p class="metric-card__change"><b>+12,4%</b> dari kemarin</p>
+  </article>
+  <article class="metric-card">
+    <div class="metric-card__top"><span>Pengguna aktif</span><span class="metric-card__icon" aria-hidden="true">♙</span></div>
+    <strong class="metric-card__value">1.248</strong>
+    <p class="metric-card__change"><b>+8,7%</b> bulan ini</p>
+  </article>
+  <article class="metric-card">
+    <div class="metric-card__top"><span>Palet referensi</span><span class="metric-card__icon" aria-hidden="true">♟</span></div>
+    <strong class="metric-card__value">24</strong>
+    <p class="metric-card__caption">4 kategori musim</p>
+  </article>
+  <article class="metric-card">
+    <div class="metric-card__top"><span>Tingkat sukses</span><span class="metric-card__icon" aria-hidden="true">◉</span></div>
+    <strong class="metric-card__value">96,8%</strong>
+    <p class="metric-card__caption">Deteksi wajah valid</p>
+  </article>
+</section>
+
+<div class="dashboard-panels">
+  <section class="panel activity-chart" aria-labelledby="activity-title">
+    <div class="panel__heading">
+      <div><h3 id="activity-title">Aktivitas analisis</h3><p>Tujuh hari terakhir</p></div>
+      <a href="{% url 'analisis:admin_statistics' %}">Lihat detail</a>
     </div>
-
-    <div class="sidebar__account">
-      <div class="account-avatar">AV</div>
-      <div class="account-copy"><strong>{{ admin_name|title }}</strong><span>Administrator</span></div>
+    <div class="chart">
+      <div class="chart__y-labels" aria-hidden="true"><span>200</span><span>150</span><span>100</span><span>50</span><span>0</span></div>
+      <svg class="chart__plot" viewBox="0 0 540 190" preserveAspectRatio="none" role="img" aria-label="Grafik contoh aktivitas analisis selama tujuh hari">
+        <g class="chart__grid">
+          <line x1="0" y1="8" x2="540" y2="8"/><line x1="0" y1="49" x2="540" y2="49"/>
+          <line x1="0" y1="90" x2="540" y2="90"/><line x1="0" y1="131" x2="540" y2="131"/>
+          <line x1="0" y1="172" x2="540" y2="172"/>
+        </g>
+        <path class="chart__area" d="M25 154 L105 145 L185 150 L265 130 L345 127 L425 124 L515 130 L515 172 L25 172Z"/>
+        <polyline class="chart__line" points="25,154 105,145 185,150 265,130 345,127 425,124 515,130"/>
+        <g class="chart__points"><circle cx="25" cy="154" r="3"/><circle cx="105" cy="145" r="3"/><circle cx="185" cy="150" r="3"/><circle cx="265" cy="130" r="3"/><circle cx="345" cy="127" r="3"/><circle cx="425" cy="124" r="3"/><circle cx="515" cy="130" r="3"/></g>
+      </svg>
+      <div class="chart__x-labels" aria-hidden="true"><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span></div>
+      <div class="chart__values" aria-hidden="true"><span>84</span><span>112</span><span>96</span><span>138</span><span>126</span><span>158</span><span>144</span></div>
     </div>
-    <form class="sidebar__logout" method="post" action="{% url 'analisis:admin_logout' %}">
-      {% csrf_token %}
-      <button type="submit"><span aria-hidden="true">↪</span> Keluar</button>
-    </form>
-  </aside>
-
-  <main class="dashboard-main" id="overview">
-    <header class="dashboard-topbar">
-      <h1>Dashboard</h1>
-      <span class="system-status"><i aria-hidden="true"></i> Sistem beroperasi normal</span>
-    </header>
-
-    <div class="dashboard-content">
-      <div class="dashboard-heading">
-        <div>
-          <p class="dashboard-date">{{ tanggal_hari_ini|date:"l, j F Y" }}</p>
-          <h2>Selamat pagi, {{ admin_name|title }}</h2>
-          <p class="dashboard-subtitle">
-            Berikut ringkasan aktivitas analisis personal color hari ini.
-            <span class="sample-notice">· Data contoh untuk pratinjau desain</span>
-          </p>
-        </div>
-        <a class="add-reference" href="#references"><span aria-hidden="true">＋</span> Tambah referensi</a>
+  </section>
+  <section class="panel distribution-panel" aria-labelledby="distribution-title">
+    <div class="panel__heading">
+      <div><h3 id="distribution-title">Distribusi hasil</h3><p>Berdasarkan kategori musim</p></div>
+    </div>
+    <div class="distribution">
+      <div class="donut" role="img" aria-label="Distribusi contoh: Musim Gugur 34 persen, Musim Semi 27 persen, Musim Panas 22 persen, Musim Dingin 17 persen">
+        <div class="donut__center"><strong>1.248</strong><span>Total</span></div>
       </div>
-
-      <section class="metric-grid" aria-label="Ringkasan metrik">
-        <article class="metric-card">
-          <div class="metric-card__top"><span>Analisis hari ini</span><span class="metric-card__icon" aria-hidden="true">◎</span></div>
-          <strong class="metric-card__value">158</strong>
-          <p class="metric-card__change"><b>+12,4%</b> dari kemarin</p>
-        </article>
-        <article class="metric-card">
-          <div class="metric-card__top"><span>Pengguna aktif</span><span class="metric-card__icon" aria-hidden="true">♙</span></div>
-          <strong class="metric-card__value">1.248</strong>
-          <p class="metric-card__change"><b>+8,7%</b> bulan ini</p>
-        </article>
-        <article class="metric-card">
-          <div class="metric-card__top"><span>Palet referensi</span><span class="metric-card__icon" aria-hidden="true">♟</span></div>
-          <strong class="metric-card__value">24</strong>
-          <p class="metric-card__caption">4 kategori musim</p>
-        </article>
-        <article class="metric-card">
-          <div class="metric-card__top"><span>Tingkat sukses</span><span class="metric-card__icon" aria-hidden="true">◉</span></div>
-          <strong class="metric-card__value">96,8%</strong>
-          <p class="metric-card__caption">Deteksi wajah valid</p>
-        </article>
-      </section>
-
-      <div class="dashboard-panels">
-        <section class="panel activity-chart" id="statistics" aria-labelledby="activity-title">
-          <div class="panel__heading">
-            <div><h3 id="activity-title">Aktivitas analisis</h3><p>Tujuh hari terakhir</p></div>
-            <a href="#activities">Lihat detail</a>
-          </div>
-          <div class="chart">
-            <div class="chart__y-labels" aria-hidden="true"><span>200</span><span>150</span><span>100</span><span>50</span><span>0</span></div>
-            <svg class="chart__plot" viewBox="0 0 540 190" preserveAspectRatio="none" role="img" aria-label="Grafik contoh aktivitas analisis selama tujuh hari">
-              <g class="chart__grid">
-                <line x1="0" y1="8" x2="540" y2="8"/><line x1="0" y1="49" x2="540" y2="49"/>
-                <line x1="0" y1="90" x2="540" y2="90"/><line x1="0" y1="131" x2="540" y2="131"/>
-                <line x1="0" y1="172" x2="540" y2="172"/>
-              </g>
-              <path class="chart__area" d="M25 154 L105 145 L185 150 L265 130 L345 127 L425 124 L515 130 L515 172 L25 172Z"/>
-              <polyline class="chart__line" points="25,154 105,145 185,150 265,130 345,127 425,124 515,130"/>
-              <g class="chart__points"><circle cx="25" cy="154" r="3"/><circle cx="105" cy="145" r="3"/><circle cx="185" cy="150" r="3"/><circle cx="265" cy="130" r="3"/><circle cx="345" cy="127" r="3"/><circle cx="425" cy="124" r="3"/><circle cx="515" cy="130" r="3"/></g>
-            </svg>
-            <div class="chart__x-labels" aria-hidden="true"><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span></div>
-            <div class="chart__values" aria-hidden="true"><span>84</span><span>112</span><span>96</span><span>138</span><span>126</span><span>158</span><span>144</span></div>
-          </div>
-        </section>
-
-        <section class="panel distribution-panel" id="references" aria-labelledby="distribution-title">
-          <div class="panel__heading">
-            <div><h3 id="distribution-title">Distribusi hasil</h3><p>Berdasarkan kategori musim</p></div>
-          </div>
-          <div class="distribution">
-            <div class="donut" role="img" aria-label="Distribusi contoh: Warm Autumn 34 persen, Warm Spring 27 persen, Cool Summer 22 persen, Cool Winter 17 persen">
-              <div class="donut__center"><strong>1.248</strong><span>Total</span></div>
-            </div>
-            <ul class="legend">
-              <li><i class="legend__autumn"></i><span>Musim Gugur</span><b>34%</b></li>
-              <li><i class="legend__spring"></i><span>Musim Semi</span><b>27%</b></li>
-              <li><i class="legend__summer"></i><span>Musim Panas</span><b>22%</b></li>
-              <li><i class="legend__winter"></i><span>Musim Dingin</span><b>17%</b></li>
-            </ul>
-          </div>
-          <p class="distribution-panel__foot">4 kategori personal color</p>
-        </section>
-      </div>
-
-      <section class="panel recent-panel" id="activities" aria-labelledby="recent-title">
-        <div class="panel__heading">
-          <div><h3 id="recent-title">Aktivitas terbaru</h3><p>Pembaruan sistem dan data terakhir</p></div>
-        </div>
-        <ul class="activity-list">
-          <li class="activity-item">
-            <span class="activity-item__icon" aria-hidden="true">♢</span>
-            <div><strong>Analisis selesai</strong><p>Pengguna guest terdeteksi sebagai Warm Autumn</p></div>
-            <time>2 menit lalu</time>
-          </li>
-          <li class="activity-item">
-            <span class="activity-item__icon" aria-hidden="true">♧</span>
-            <div><strong>Referensi diperbarui</strong><p>Palet Musim Panas diperbarui oleh Admin</p></div>
-            <time>18 menit lalu</time>
-          </li>
-          <li class="activity-item">
-            <span class="activity-item__icon" aria-hidden="true">♙</span>
-            <div><strong>Pengguna baru</strong><p>Satu pengguna baru terdaftar di sistem</p></div>
-            <time>42 menit lalu</time>
-          </li>
-        </ul>
-      </section>
+      <ul class="legend">
+        <li><i class="legend__autumn"></i><span>Musim Gugur</span><b>34%</b></li>
+        <li><i class="legend__spring"></i><span>Musim Semi</span><b>27%</b></li>
+        <li><i class="legend__summer"></i><span>Musim Panas</span><b>22%</b></li>
+        <li><i class="legend__winter"></i><span>Musim Dingin</span><b>17%</b></li>
+      </ul>
     </div>
-  </main>
-</body>
-</html>
+    <p class="distribution-panel__foot">4 kategori personal color</p>
+  </section>
+</div>
+
+<section class="panel recent-panel" aria-labelledby="recent-title">
+  <div class="panel__heading">
+    <div><h3 id="recent-title">Aktivitas terbaru</h3><p>Pembaruan sistem dan data terakhir</p></div>
+  </div>
+  <ul class="activity-list">
+    <li class="activity-item"><span class="activity-item__icon" aria-hidden="true">♢</span><div><strong>Analisis selesai</strong><p>Pengguna guest terdeteksi sebagai Warm Autumn</p></div><time>2 menit lalu</time></li>
+    <li class="activity-item"><span class="activity-item__icon" aria-hidden="true">♧</span><div><strong>Referensi diperbarui</strong><p>Palet Musim Panas diperbarui oleh Admin</p></div><time>18 menit lalu</time></li>
+    <li class="activity-item"><span class="activity-item__icon" aria-hidden="true">♙</span><div><strong>Pengguna baru</strong><p>Satu pengguna baru terdaftar di sistem</p></div><time>42 menit lalu</time></li>
+  </ul>
+</section>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "analisis/admin/base.html" %}
+
+{% block content %}
+<header class="admin-page-heading">
+  <div>
+    <p class="dashboard-date">Koleksi personal color</p>
+    <h2>Referensi warna &amp; fashion</h2>
+    <p class="dashboard-subtitle">Kelola kategori personal color, palet, dan rekomendasi fashion.</p>
+    <p class="sample-notice">Pratinjau desain · perubahan palet hanya tersimpan sementara di browser.</p>
+  </div>
+</header>
+
+<div class="references-layout">
+  <nav class="season-list panel" aria-label="Kategori musim">
+    <div class="season-list__heading"><strong>Kategori musim</strong><span>4 kategori aktif</span></div>
+    {% for season in seasons %}
+    <button class="season-option{% if season.key == 'warm-autumn' %} is-selected{% endif %}" type="button" data-season-select="{{ season.key }}" aria-pressed="{% if season.key == 'warm-autumn' %}true{% else %}false{% endif %}">
+      <span class="season-option__icon season-option__icon--{{ season.kelas }}" aria-hidden="true">{% if season.kelas == 'spring' %}❀{% elif season.kelas == 'summer' %}☼{% elif season.kelas == 'autumn' %}♧{% else %}❄{% endif %}</span>
+      <span class="season-option__copy"><strong>{{ season.label }}</strong><small>{{ season.english_label }} · <span data-color-count>{{ season.palet|length }}</span> warna</small></span>
+      <i aria-hidden="true"></i>
+    </button>
+    {% endfor %}
+  </nav>
+
+  <div class="reference-workspace">
+    {% for season in seasons %}
+    <section class="season-detail" data-reference-season="{{ season.key }}" {% if season.key != 'warm-autumn' %}hidden{% endif %} aria-label="{{ season.label }}">
+      <div class="season-summary season-summary--{{ season.kelas }}">
+        <p>{{ season.english_label }} palette</p>
+        <h3>{{ season.label }}</h3>
+        <span>{{ season.deskripsi }}</span>
+        <div class="season-summary__swatches" aria-label="Contoh warna">
+          {% for nama, hex in season.palet %}<i style="--swatch-color:{{ hex }}" title="{{ nama }} {{ hex }}"></i>{% endfor %}
+        </div>
+      </div>
+
+      <section class="panel reference-panel">
+        <div class="reference-tabs" role="tablist" aria-label="Konten referensi">
+          <button type="button" class="reference-tab is-active" role="tab" aria-selected="true" data-reference-tab="colors">Palet warna</button>
+          <button type="button" class="reference-tab" role="tab" aria-selected="false" data-reference-tab="fashion">Rekomendasi fashion</button>
+        </div>
+
+        <div class="reference-colors" data-reference-view="colors">
+          <form class="color-add-form" data-color-form>
+            <label class="visually-hidden" for="color-name-{{ season.key }}">Nama warna</label>
+            <input id="color-name-{{ season.key }}" name="name" type="text" placeholder="Nama warna" maxlength="40" required>
+            <label class="color-picker" title="Pilih warna">
+              <span class="visually-hidden">Pilih warna</span>
+              <input name="color" type="color" value="#B55F42">
+            </label>
+            <output class="color-hex" data-color-hex>#B55F42</output>
+            <button type="submit" class="color-add-button"><span aria-hidden="true">＋</span> Tambah warna</button>
+          </form>
+          <div class="reference-color-grid" data-color-grid>
+            {% for nama, hex in season.palet %}
+            <article class="reference-color-card" data-color-card>
+              <span class="reference-color-card__swatch" style="--swatch-color:{{ hex }}"></span>
+              <strong data-color-name>{{ nama }}</strong>
+              <div class="reference-color-card__bottom"><code data-color-value>{{ hex }}</code><span class="reference-color-actions"><button type="button" data-edit-color aria-label="Ubah {{ nama }}" title="Ubah warna">♢</button><button type="button" data-remove-color aria-label="Hapus {{ nama }}" title="Hapus warna">♧</button></span></div>
+            </article>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="reference-fashion" data-reference-view="fashion" hidden>
+          {% for judul, isi in season.fashion %}
+          <article class="fashion-reference"><span aria-hidden="true">✦</span><div><strong>{{ judul }}</strong><p>{{ isi }}</p></div></article>
+          {% endfor %}
+        </div>
+        <p class="reference-feedback" data-reference-feedback aria-live="polite"></p>
+      </section>
+    </section>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

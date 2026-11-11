@@ -125,6 +125,26 @@ class DashboardAdminTests(TestCase):
         self.assertContains(dashboard_response, "Dashboard")
         self.assertContains(dashboard_response, "Data contoh")
         self.assertContains(dashboard_response, "Admin-Ui")
+        self.assertNotContains(dashboard_response, "Tambah referensi")
+
+    def test_tiga_halaman_admin_memerlukan_staff_dan_dapat_dibuka(self):
+        routes = (
+            ("admin_users", ("Data pengguna", "Alya Putri")),
+            ("admin_references", ("Referensi warna", "Terracotta")),
+            ("admin_statistics", ("Statistik penggunaan", "Tren analisis bulanan")),
+        )
+        for route, expected_content in routes:
+            response = self.client.get(reverse(f"analisis:{route}"))
+            self.assertRedirects(
+                response,
+                f"{reverse('analisis:admin_login')}?next={reverse(f'analisis:{route}')}",
+            )
+            self.client.force_login(self.admin)
+            response = self.client.get(reverse(f"analisis:{route}"))
+            self.assertEqual(response.status_code, 200, route)
+            for content in expected_content:
+                self.assertContains(response, content)
+            self.client.logout()
 
     def test_pengguna_non_staff_tidak_dapat_login_admin(self):
         pengguna = get_user_model().objects.create_user(username="pengguna", password="User-pass-123")
@@ -136,7 +156,8 @@ class DashboardAdminTests(TestCase):
         self.assertContains(response, "tidak memiliki akses administrator")
         self.assertFalse(response.wsgi_request.user.is_authenticated)
         self.client.force_login(pengguna)
-        self.assertEqual(self.client.get(reverse("analisis:dashboard")).status_code, 403)
+        for route in ("dashboard", "admin_users", "admin_references", "admin_statistics"):
+            self.assertEqual(self.client.get(reverse(f"analisis:{route}")).status_code, 403, route)
 
     def test_logout_memerlukan_post_dan_mengakhiri_sesi_admin(self):
         self.client.force_login(self.admin)

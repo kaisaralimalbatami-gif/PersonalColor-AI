@@ -1,0 +1,47 @@
+{% extends "analisis/admin/base.html" %}
+
+{% block content %}
+<header class="admin-page-heading">
+  <div>
+    <p class="dashboard-date">Manajemen pengguna</p>
+    <h2>Data pengguna</h2>
+    <p class="dashboard-subtitle">Lihat dan kelola pengguna yang pernah menggunakan sistem.</p>
+    <p class="sample-notice">Data contoh untuk pratinjau desain; perubahan daftar hanya berlaku di halaman ini.</p>
+  </div>
+</header>
+
+<section class="panel users-panel" aria-label="Daftar pengguna">
+  <div class="users-toolbar">
+    <label class="user-search">
+      <span aria-hidden="true">⌕</span>
+      <span class="visually-hidden">Cari nama atau email</span>
+      <input type="search" id="user-search" placeholder="Cari nama atau email..." autocomplete="off">
+    </label>
+    <span class="users-count" id="users-count" aria-live="polite">{{ users|length }} dari {{ users|length }} pengguna</span>
+  </div>
+  <div class="users-table-wrap">
+    <table class="users-table">
+      <thead>
+        <tr><th scope="col">Pengguna</th><th scope="col">Total analisis</th><th scope="col">Bergabung</th><th scope="col">Status</th><th scope="col"><span class="visually-hidden">Aksi</span></th></tr>
+      </thead>
+      <tbody id="users-list">
+        {% for user in users %}
+        <tr data-user-row>
+          <td>
+            <div class="user-cell">
+              <span class="user-avatar">{{ user.nama|slice:":2"|upper }}</span>
+              <span class="user-identity"><strong>{{ user.nama }}</strong><small>{{ user.email }}</small></span>
+            </div>
+          </td>
+          <td>{{ user.analisis }} kali</td>
+          <td>{{ user.bergabung }}</td>
+          <td><span class="user-status{% if not user.aktif %} user-status--inactive{% endif %}"><i></i>{% if user.aktif %}Aktif{% else %}Nonaktif{% endif %}</span></td>
+          <td class="user-actions"><button type="button" class="user-delete" data-delete-user aria-label="Hapus {{ user.nama }}" title="Hapus dari daftar contoh"><span aria-hidden="true">♧</span></button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="users-empty" id="users-empty" hidden>Tidak ada pengguna yang cocok dengan pencarian.</p>
+  </div>
+</section>
+{% endblock %}

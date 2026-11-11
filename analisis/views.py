@@ -54,10 +54,73 @@ def dashboard(request):
     """Ringkasan admin; statistik pada tampilan saat ini adalah data pratinjau."""
     if not request.user.is_staff:
         raise PermissionDenied
-    return render(request, "analisis/admin/dashboard.html", {
-        "admin_name": request.user.get_full_name() or request.user.get_username(),
+    return render(request, "analisis/admin/dashboard.html", _admin_context(request, "Dashboard", "dashboard", {
         "tanggal_hari_ini": timezone.localdate(),
-    })
+    }))
+
+
+def _admin_context(request, page_title, active_page, extra=None):
+    context = {
+        "admin_name": request.user.get_full_name() or request.user.get_username(),
+        "page_title": page_title,
+        "active_page": active_page,
+    }
+    if extra:
+        context.update(extra)
+    return context
+
+
+@login_required(login_url="analisis:admin_login")
+def admin_users(request):
+    if not request.user.is_staff:
+        raise PermissionDenied
+    users = [
+        {"nama": "Alya Putri", "email": "alya@example.com", "analisis": 4, "bergabung": "12 Jan 2026", "aktif": True},
+        {"nama": "Raka Mahendra", "email": "raka@example.com", "analisis": 2, "bergabung": "04 Feb 2026", "aktif": True},
+        {"nama": "Sinta Dewi", "email": "sinta@example.com", "analisis": 7, "bergabung": "20 Feb 2026", "aktif": True},
+        {"nama": "Nadia Laras", "email": "nadia@example.com", "analisis": 1, "bergabung": "17 Mar 2026", "aktif": False},
+        {"nama": "Bima Pratama", "email": "bima@example.com", "analisis": 3, "bergabung": "08 Apr 2026", "aktif": True},
+    ]
+    return render(request, "analisis/admin/users.html", _admin_context(request, "Data pengguna", "users", {
+        "users": users,
+    }))
+
+
+@login_required(login_url="analisis:admin_login")
+def admin_references(request):
+    if not request.user.is_staff:
+        raise PermissionDenied
+    seasons = []
+    labels = {
+        "warm-spring": ("spring", "Musim Semi", "Spring"),
+        "cool-summer": ("summer", "Musim Panas", "Summer"),
+        "warm-autumn": ("autumn", "Musim Gugur", "Autumn"),
+        "cool-winter": ("winter", "Musim Dingin", "Winter"),
+    }
+    for key, (season_class, label, english_label) in labels.items():
+        musim = data.MUSIM[key]
+        seasons.append({
+            "key": key,
+            "kelas": season_class,
+            "label": label,
+            "english_label": english_label,
+            "nama": musim["nama"],
+            "deskripsi": musim["deskripsi"],
+            "palet": musim["palet"],
+            "fashion": musim["fashion"],
+        })
+    return render(request, "analisis/admin/references.html", _admin_context(
+        request, "Referensi warna", "references", {"seasons": seasons},
+    ))
+
+
+@login_required(login_url="analisis:admin_login")
+def admin_statistics(request):
+    if not request.user.is_staff:
+        raise PermissionDenied
+    return render(request, "analisis/admin/statistics.html", _admin_context(
+        request, "Statistik", "statistics", {},
+    ))
 
 
 @require_POST

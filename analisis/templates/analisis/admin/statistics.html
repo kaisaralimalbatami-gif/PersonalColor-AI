@@ -1,0 +1,48 @@
+{% extends "analisis/admin/base.html" %}
+
+{% block content %}
+<header class="admin-page-heading statistics-heading">
+  <div>
+    <p class="dashboard-date">Performa AuraVibe</p>
+    <h2>Statistik penggunaan</h2>
+    <p class="dashboard-subtitle">Pantau tren analisis dan performa sistem secara berkala.</p>
+    <p class="sample-notice">Pratinjau desain · data pada halaman ini adalah contoh.</p>
+  </div>
+  <div class="range-toggle" role="group" aria-label="Rentang waktu statistik">
+    <button type="button" data-stat-range="daily" aria-pressed="false">Harian</button>
+    <button type="button" data-stat-range="monthly" aria-pressed="true">Bulanan</button>
+  </div>
+</header>
+
+<section class="statistics-metrics" aria-label="Metrik penggunaan">
+  <article class="stat-card"><span>Total analisis</span><strong>4.150</strong><small>6 bulan terakhir</small></article>
+  <article class="stat-card"><span>Rata-rata</span><div class="stat-card__average"><strong data-average>692</strong><span data-average-unit>/bulan</span></div><small class="stat-positive">+10,2% dari periode lalu</small></article>
+  <article class="stat-card"><span>Deteksi gagal</span><strong>3,2%</strong><small>Di bawah ambang 5%</small></article>
+</section>
+
+<section class="panel trend-panel" aria-labelledby="trend-title">
+  <div class="panel__heading">
+    <div><h3 id="trend-title">Tren analisis bulanan</h3><p data-chart-subtitle>Jumlah foto yang berhasil diproses</p></div>
+    <span class="data-badge"><i></i> Data terbaru</span>
+  </div>
+  <div class="bar-chart" data-stat-chart data-range="monthly" role="img" aria-label="Grafik contoh analisis bulanan">
+    <div class="bar-chart__y" aria-hidden="true"><span>1000</span><span>750</span><span>500</span><span>250</span><span>0</span></div>
+    <div class="bar-chart__plot">
+      <div class="bar-chart__grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="bar-chart__columns">
+        <div class="bar-column" data-day="122" data-month="480"><span>480</span><i style="--bar-height:48%"></i><small>Okt</small></div>
+        <div class="bar-column" data-day="148" data-month="560"><span>560</span><i style="--bar-height:56%"></i><small>Nov</small></div>
+        <div class="bar-column" data-day="96" data-month="648"><span>648</span><i style="--bar-height:64.8%"></i><small>Des</small></div>
+        <div class="bar-column" data-day="173" data-month="720"><span>720</span><i style="--bar-height:72%"></i><small>Jan</small></div>
+        <div class="bar-column" data-day="158" data-month="810"><span>810</span><i style="--bar-height:81%"></i><small>Feb</small></div>
+        <div class="bar-column" data-day="158" data-month="940"><span>940</span><i style="--bar-height:94%"></i><small>Mar</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="insight-grid">
+  <article class="insight-card insight-card--warm"><span aria-hidden="true">♧</span><div><strong>Insight periode ini</strong><p>Warm Autumn menjadi hasil paling umum dengan kontribusi 34% dari seluruh analisis.</p></div></article>
+  <article class="insight-card insight-card--success"><span aria-hidden="true">♢</span><div><strong>Performa deteksi baik</strong><p>96,8% foto berhasil diproses tanpa perlu pengambilan ulang.</p></div></article>
+</div>
+{% endblock %}

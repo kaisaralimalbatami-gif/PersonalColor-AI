@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf7f5">
+  <title>{% block title %}{{ page_title }}{% endblock %} — AuraVibe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'analisis/css/admin.css' %}">
+  {% block head %}{% endblock %}
+</head>
+<body class="dashboard-page admin-page">
+  <aside class="sidebar">
+    <a class="admin-brand sidebar__brand" href="{% url 'analisis:dashboard' %}" aria-label="AuraVibe Dashboard">
+      <span class="admin-brand__mark" aria-hidden="true">✦</span>
+      <span>AuraVibe</span>
+    </a>
+    <div class="sidebar__nav-wrap">
+      <p class="sidebar__label">Manajemen sistem</p>
+      <nav class="sidebar-nav" aria-label="Navigasi dashboard">
+        <a class="sidebar-nav__link{% if active_page == 'dashboard' %} is-active{% endif %}" href="{% url 'analisis:dashboard' %}"{% if active_page == 'dashboard' %} aria-current="page"{% endif %}><span aria-hidden="true">▦</span> Dashboard</a>
+        <a class="sidebar-nav__link{% if active_page == 'users' %} is-active{% endif %}" href="{% url 'analisis:admin_users' %}"{% if active_page == 'users' %} aria-current="page"{% endif %}><span aria-hidden="true">♙</span> Data pengguna</a>
+        <a class="sidebar-nav__link{% if active_page == 'references' %} is-active{% endif %}" href="{% url 'analisis:admin_references' %}"{% if active_page == 'references' %} aria-current="page"{% endif %}><span aria-hidden="true">◉</span> Referensi warna</a>
+        <a class="sidebar-nav__link{% if active_page == 'statistics' %} is-active{% endif %}" href="{% url 'analisis:admin_statistics' %}"{% if active_page == 'statistics' %} aria-current="page"{% endif %}><span aria-hidden="true">▥</span> Statistik</a>
+      </nav>
+    </div>
+    <div class="sidebar__account">
+      <div class="account-avatar">AV</div>
+      <div class="account-copy"><strong>{{ admin_name|title }}</strong><span>Administrator</span></div>
+    </div>
+    <form class="sidebar__logout" method="post" action="{% url 'analisis:admin_logout' %}">
+      {% csrf_token %}
+      <button type="submit"><span aria-hidden="true">↪</span> Keluar</button>
+    </form>
+  </aside>
+  <main class="dashboard-main">
+    <header class="dashboard-topbar">
+      <h1>{{ page_title }}</h1>
+      <span class="system-status"><i aria-hidden="true"></i> Sistem beroperasi normal</span>
+    </header>
+    <div class="dashboard-content">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+  <script src="{% static 'analisis/js/admin-pages.js' %}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
