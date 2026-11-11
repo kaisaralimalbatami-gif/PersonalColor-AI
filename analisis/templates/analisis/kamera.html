@@ -1,0 +1,50 @@
+{% extends "analisis/base.html" %}
+{% load static %}
+
+{% block title %}Kamera — AuraVibe{% endblock %}
+{% block body_class %}page-flow{% endblock %}
+{% block head %}<link rel="stylesheet" href="{% static 'analisis/css/flow.css' %}">{% endblock %}
+
+{% block content %}
+<main id="konten" class="flow flow--camera" data-proses-url="{% url 'analisis:proses' %}" data-beranda-url="{% url 'analisis:beranda' %}">
+  <div class="container flow__inner">
+    <p class="eyebrow eyebrow--center">Langkah 1 dari 3</p>
+    <h1 class="flow__title">Posisikan wajah di dalam panduan</h1>
+    <p class="flow__lead">Pastikan cahaya merata dan wajah menghadap lurus ke kamera.</p>
+
+    <div class="camera" id="camera">
+      <video id="video" class="camera__video" autoplay playsinline muted aria-label="Pratinjau kamera"></video>
+      <div class="camera__guide" id="guide" aria-hidden="true"></div>
+      <span class="camera__live" id="live" hidden><i aria-hidden="true"></i> LIVE</span>
+      <div class="camera__flash" id="flash" aria-hidden="true"></div>
+
+      <div class="camera__empty" id="camera-empty" hidden>
+        <span class="state-icon" aria-hidden="true">◔</span>
+        <h2>Kamera tidak dapat diakses</h2>
+        <p id="camera-empty-text">Izinkan akses kamera di browser, atau unggah foto dari perangkat Anda.</p>
+        <label class="button button--primary" for="photo-input-kamera">
+          <span aria-hidden="true">↥</span> Unggah foto
+        </label>
+      </div>
+    </div>
+
+    <div class="camera__controls">
+      <a class="button button--secondary button--tall" href="{% url 'analisis:beranda' %}" id="btn-batal">Batal</a>
+      <button class="shutter" id="shutter" type="button" aria-label="Ambil foto" disabled>
+        <span aria-hidden="true">◉</span>
+      </button>
+      <label class="button button--secondary button--tall" for="photo-input-kamera" tabindex="0" role="button" id="btn-unggah">
+        <span aria-hidden="true">↥</span> Unggah
+      </label>
+      <input class="visually-hidden" id="photo-input-kamera" type="file" accept="image/jpeg,image/png">
+    </div>
+    <p class="flow__note" id="camera-status" aria-live="polite"><span aria-hidden="true">♧</span> Foto hanya diproses sementara dan tidak disimpan.</p>
+    <canvas id="canvas" hidden></canvas>
+  </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'analisis/js/photo.js' %}"></script>
+  <script src="{% static 'analisis/js/kamera.js' %}"></script>
+{% endblock %}

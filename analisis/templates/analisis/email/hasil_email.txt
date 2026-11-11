@@ -1,0 +1,22 @@
+{% autoescape off %}Halo {{ nama }},
+
+Berikut ringkasan hasil personal color Anda dari AuraVibe.
+
+Hasil: {{ musim.nama }}
+Undertone: {{ undertone }}
+{{ musim.deskripsi }}
+
+Palet terbaik Anda:
+{% for nama_warna, hex in musim.palet %}- {{ nama_warna }} ({{ hex }})
+{% endfor %}
+Warna yang sebaiknya dihindari:
+{% for nama_warna, hex in musim.hindari %}- {{ nama_warna }} ({{ hex }})
+{% endfor %}
+Rekomendasi fashion:
+{% for judul, isi in musim.fashion %}- {{ judul }}: {{ isi }}
+{% endfor %}
+Foto Anda tidak disimpan oleh AuraVibe.
+
+Salam,
+Tim AuraVibe
+{% endautoescape %}

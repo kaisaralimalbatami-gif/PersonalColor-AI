@@ -1,0 +1,25 @@
+{% extends "analisis/base.html" %}
+{% load static %}
+
+{% block title %}{{ judul }} — AuraVibe{% endblock %}
+{% block body_class %}page-flow{% endblock %}
+{% block head %}<link rel="stylesheet" href="{% static 'analisis/css/flow.css' %}">{% endblock %}
+
+{% block content %}
+<main id="konten" class="flow flow--error">
+  <div class="container flow__inner">
+    <div class="state-card" role="alert">
+      <span class="state-icon state-icon--error" aria-hidden="true">!</span>
+      <h1 class="flow__title flow__title--small">{{ judul }}</h1>
+      <p class="flow__lead">{{ pesan }}</p>
+      <ul class="tips">
+        {% for tip in tips %}<li>{{ tip }}</li>{% endfor %}
+      </ul>
+      <div class="state-card__actions">
+        <a class="button button--primary" href="{% url 'analisis:kamera' %}"><span aria-hidden="true">◎</span> Coba lagi dengan kamera</a>
+        <a class="button button--secondary" href="{% url 'analisis:beranda' %}"><span aria-hidden="true">↥</span> Unggah foto lain</a>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

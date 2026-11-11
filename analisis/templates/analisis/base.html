@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf7f5">
+  <title>{% block title %}AuraVibe — Temukan warna terbaik Anda{% endblock %}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'analisis/css/base.css' %}">
+  {% block head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}" data-proses-url="{% url 'analisis:proses' %}">
+  <a class="skip-link" href="#konten">Lewati ke konten</a>
+  <header class="site-header">
+    <div class="container header-content">
+      <a class="brand" href="{% url 'analisis:beranda' %}" aria-label="AuraVibe, halaman utama">
+        <span class="brand__mark" aria-hidden="true">✦</span>
+        <span>Aura<span class="brand__accent">Vibe</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Navigasi utama">
+        <a href="{% url 'analisis:beranda' %}#langkah">Cara kerja</a>
+        <a href="{% url 'analisis:beranda' %}#palet">Palet warna</a>
+        <a href="{% url 'analisis:beranda' %}#privasi">Privasi</a>
+        <a class="main-nav__admin" href="/admin/"><span aria-hidden="true">♙</span> Masuk Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  {% block content %}{% endblock %}
+
+  {% block footer %}
+  <footer class="site-footer site-footer--simple">
+    <p>© AuraVibe. All rights reserved.</p>
+  </footer>
+  {% endblock %}
+
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+  <script src="{% static 'analisis/js/base.js' %}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

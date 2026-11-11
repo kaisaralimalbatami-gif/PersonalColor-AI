@@ -1,0 +1,42 @@
+{% extends "analisis/base.html" %}
+{% load static %}
+
+{% block title %}Membaca karakter warna Anda — AuraVibe{% endblock %}
+{% block body_class %}page-flow{% endblock %}
+{% block head %}<link rel="stylesheet" href="{% static 'analisis/css/flow.css' %}">{% endblock %}
+
+{% block content %}
+<main id="konten" class="flow flow--process"
+      data-api-url="{% url 'analisis:api_analisis' %}"
+      data-hasil-url="{% url 'analisis:hasil' %}"
+      data-error-url="{% url 'analisis:error' %}"
+      data-beranda-url="{% url 'analisis:beranda' %}">
+  <div class="container flow__inner">
+    <div class="scan" aria-hidden="true">
+      <svg viewBox="0 0 224 288" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 112C0 50 50 0 112 0s112 50 112 112v152c0 13-11 24-24 24H24c-13 0-24-11-24-24V112Z" fill="#e0d9d6"/>
+        <circle cx="112" cy="92" r="48" fill="#c0b5ae"/>
+        <path d="M40 260c0-50 32-84 72-84s72 34 72 84v12H40v-12Z" fill="#c0b5ae"/>
+      </svg>
+      <span class="scan__label">Foto wajah</span>
+      <span class="scan__line"></span>
+    </div>
+
+    <p class="eyebrow eyebrow--center">Langkah 2 dari 3</p>
+    <h1 class="flow__title">Membaca karakter warna Anda</h1>
+    <p class="flow__lead">Mendeteksi area wajah, mengekstrak warna kulit, dan menyusun palet terbaik.</p>
+
+    <ul class="chips" id="chips" aria-label="Tahapan analisis">
+      <li class="chip is-active" data-step="1"><i aria-hidden="true"></i> Area wajah dipetakan</li>
+      <li class="chip" data-step="2"><i aria-hidden="true"></i> Ekstraksi skin tone</li>
+      <li class="chip" data-step="3"><i aria-hidden="true"></i> Menyusun rekomendasi</li>
+    </ul>
+    <p class="visually-hidden" id="proses-status" role="status">Analisis sedang berjalan.</p>
+  </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'analisis/js/photo.js' %}"></script>
+  <script src="{% static 'analisis/js/proses.js' %}"></script>
+{% endblock %}

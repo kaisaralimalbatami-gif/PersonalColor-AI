@@ -1,0 +1,111 @@
+{% extends "analisis/base.html" %}
+{% load static %}
+
+{% block title %}Hasil {{ musim.nama }} — AuraVibe{% endblock %}
+{% block body_class %}page-result{% endblock %}
+{% block head %}<link rel="stylesheet" href="{% static 'analisis/css/hasil.css' %}">{% endblock %}
+
+{% block content %}
+<main id="konten" class="result container" data-email-url="{% url 'analisis:kirim_email' %}">
+  <div class="result__bar">
+    <a class="back-link" href="{% url 'analisis:baru' %}"><span aria-hidden="true">←</span> Analisis baru</a>
+    <span class="badge-ok"><i aria-hidden="true"></i> Analisis selesai</span>
+  </div>
+
+  <section class="hero-card hero-card--{{ musim.kelas }}" aria-labelledby="judul-hasil">
+    <div class="hero-card__photo" role="img" aria-label="Foto tidak ditampilkan karena tidak disimpan">
+      <svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="58" r="30" fill="#c9bbb1"/><path d="M28 150c0-38 22-58 52-58s52 20 52 58H28Z" fill="#bcaea3"/></svg>
+      <span>Foto wajah</span>
+    </div>
+    <div class="hero-card__body">
+      <p class="eyebrow">Hasil personal color Anda</p>
+      <h1 id="judul-hasil">{{ musim.nama }}</h1>
+      <p class="hero-card__desc">{{ musim.deskripsi }}</p>
+      <dl class="metrics">
+        <div><dt>Kecerahan</dt><dd>{{ kecerahan }}</dd></div>
+        <div><dt>Undertone</dt><dd class="is-accent">{{ undertone }}</dd></div>
+        <div><dt>Kontras</dt><dd>{{ kontras }}</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <div class="result__grid">
+    <div class="result__col">
+      <section class="card" aria-labelledby="h-palet">
+        <h2 id="h-palet">Palet terbaik Anda</h2>
+        <p class="card__sub">Warna utama yang menghidupkan rona wajah.</p>
+        <ul class="swatches swatches--3">
+          {% for nama, hex in musim.palet %}
+          <li><span class="swatch" style="--c:{{ hex }}"></span><strong>{{ nama }}</strong><code>{{ hex }}</code></li>
+          {% endfor %}
+        </ul>
+      </section>
+
+      <section class="card" aria-labelledby="h-hindari">
+        <h2 id="h-hindari">Warna yang sebaiknya dihindari</h2>
+        <p class="card__sub">{{ musim.hindari_catatan }}</p>
+        <ul class="swatches swatches--4">
+          {% for nama, hex in musim.hindari %}
+          <li><span class="swatch swatch--small" style="--c:{{ hex }}"></span><strong>{{ nama }}</strong><code>{{ hex }}</code></li>
+          {% endfor %}
+        </ul>
+      </section>
+    </div>
+
+    <section class="card card--fashion" aria-labelledby="h-fashion">
+      <h2 id="h-fashion">Rekomendasi fashion</h2>
+      <p class="card__sub">Kombinasi mudah untuk penampilan sehari-hari.</p>
+      <ol class="fashion">
+        {% for judul, isi in musim.fashion %}
+        <li><span class="fashion__no">{{ forloop.counter|stringformat:"02d" }}</span><div><strong>{{ judul }}</strong><p>{{ isi }}</p></div></li>
+        {% endfor %}
+      </ol>
+      <p class="fashion__note"><span aria-hidden="true">★</span> {{ musim.ringkasan }}</p>
+    </section>
+  </div>
+
+  <section class="card card--form no-print" aria-labelledby="h-form">
+    <h2 id="h-form">Simpan &amp; Kirim Hasil Analisis</h2>
+    <p class="card__sub">Dapatkan ringkasan lengkap palet {{ musim.nama }} Anda langsung ke kotak masuk email atau unduh sebagai panduan belanja.</p>
+    <form id="form-email" novalidate>
+      {% csrf_token %}
+      <div class="form-row">
+        <div class="field">
+          <label for="{{ form.nama.id_for_label }}">{{ form.nama.label }}</label>
+          {{ form.nama }}
+          <p class="field__error" id="err-nama" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+          {{ form.email }}
+          <p class="field__error" id="err-email" role="alert"></p>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="button button--rust" type="submit" id="btn-kirim"><span aria-hidden="true">✉</span> Kirim ke Email</button>
+        <div class="download">
+          <button class="button button--soft" type="button" id="btn-unduh" aria-haspopup="true" aria-expanded="false"><span aria-hidden="true">⤓</span> Unduh PDF / Gambar</button>
+          <div class="download__menu" id="menu-unduh" role="menu" hidden>
+            <button type="button" role="menuitem" id="unduh-gambar">Gambar (PNG)</button>
+            <button type="button" role="menuitem" id="unduh-pdf">PDF (cetak halaman)</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <aside class="privacy-banner no-print">
+    <span class="privacy-banner__icon" aria-hidden="true">♧</span>
+    <div><strong>Privasi Anda terjaga</strong><p>Foto telah dihapus dari sesi pemrosesan.</p></div>
+    <a class="button button--ghost-green" href="{% url 'analisis:baru' %}"><span aria-hidden="true">↻</span> Coba foto lain</a>
+  </aside>
+
+  {{ musim|json_script:"data-musim" }}
+</main>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'analisis/js/hasil.js' %}"></script>
+{% endblock %}

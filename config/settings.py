@@ -103,9 +103,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'id'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
 
@@ -126,3 +126,9 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+
+# Model detektor wajah MediaPipe (hanya diperlukan untuk MediaPipe versi baru / Tasks API).
+# Unduh "blaze_face_short_range.tflite" dari dokumentasi MediaPipe Face Detector,
+# lalu letakkan di analisis/model_wajah/. Jika berkas tidak ada, OpenCV Haar cascade dipakai.
+MEDIAPIPE_FACE_MODEL = BASE_DIR / 'analisis' / 'model_wajah' / 'blaze_face_short_range.tflite'
