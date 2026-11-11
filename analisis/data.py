@@ -1,9 +1,3 @@
-"""Data referensi palet personal color untuk empat keluarga musim.
-
-Sementara disimpan sebagai konstanta Python. Saat sisi admin (Referensi Warna)
-sudah memakai model database, modul ini dapat diganti dengan query ke model.
-"""
-
 MUSIM = {
     "warm-spring": {
         "nama": "Warm Spring",

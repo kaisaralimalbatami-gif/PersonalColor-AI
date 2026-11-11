@@ -1,14 +1,3 @@
-"""Analisis personal color dari foto wajah (OpenCV + MediaPipe).
-
-Modul ini sengaja tidak bergantung pada Django agar mudah diuji sendiri.
-Foto hanya diproses di memori dan TIDAK PERNAH ditulis ke disk (NFR: foto tidak disimpan).
-
-Alur: decode foto -> deteksi wajah -> ambil sampel warna kulit (dahi + kedua pipi)
--> konversi ke CIE Lab -> klasifikasi undertone, kecerahan, kontras -> pilih musim.
-
-Ambang batas di bawah adalah nilai awal (heuristik) dan perlu dikalibrasi dengan
-data uji tim. Ubah konstanta di bagian "Ambang batas" saja.
-"""
 import math
 import threading
 from functools import lru_cache

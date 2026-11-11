@@ -1,14 +1,13 @@
-/* Gaya bersama seluruh halaman AuraVibe (token, header, tombol, toast). */
 :root {
   color-scheme: light;
   --page: #faf7f5;
   --white: #fff;
   --ink: #2e252d;
-  --muted: #6f6468;          /* kontras 5,4:1 di atas --page */
+  --muted: #6f6468;          
   --plum: #683d5c;
   --plum-dark: #52314b;
   --rose: #bb4f58;
-  --rose-text: #a8434c;      /* variasi --rose untuk teks kecil (kontras >= 4,5:1) */
+  --rose-text: #a8434c;      
   --terra: #b55f42;
   --rust: #9f4b33;
   --line: #e9dfdb;

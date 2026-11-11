@@ -1,8 +1,3 @@
-"""Pengujian analisis dan alur halaman pengguna.
-
-Jalankan: python manage.py test analisis
-Kelas AnalisisServiceTests memakai detektor palsu sehingga tidak membutuhkan model wajah.
-"""
 import cv2
 import numpy as np
 from django.contrib.auth import get_user_model

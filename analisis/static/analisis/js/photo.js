@@ -1,5 +1,3 @@
-/* Persiapan foto di browser: validasi, perkecil, lalu titipkan ke sessionStorage.
-   Foto tidak pernah disimpan permanen; proses.js menghapusnya setelah analisis. */
 window.AuraPhoto = (function () {
   var KUNCI = "auravibe_foto";
   var MAKS_BYTES = 5 * 1024 * 1024;

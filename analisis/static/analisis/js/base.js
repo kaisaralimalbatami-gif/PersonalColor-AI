@@ -1,4 +1,3 @@
-/* Utilitas bersama: toast dan token CSRF. */
 window.AuraUI = (function () {
   function toast(judul, isi, galat) {
     var region = document.getElementById("toast-region");

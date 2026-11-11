@@ -1,4 +1,3 @@
-/* Halaman Hasil (langkah 3 dari 3). */
 .result { padding-block: 24px 56px; }
 .result__bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
 .back-link { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; color: #4d4448; font-size: 14px; text-decoration: none; }
